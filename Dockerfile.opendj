@@ -1,0 +1,27 @@
+FROM java:latest
+
+MAINTAINER Andrii Petruk <andrey.petruk@gmail.com>
+
+WORKDIR /opt
+
+RUN apt-get install -y wget unzip
+
+RUN wget --quiet http://download.forgerock.org/downloads/opendj/nightly/20160505_2335/opendj-4.0.0-20160505.zip && unzip opendj-4.0.0-20160505.zip && rm -r opendj-4.0.0-20160505.zip 
+RUN wget https://raw.githubusercontent.com/andriipetruk/forgerock-docker/master/ldifs/Example.ldif -O /opt/Example.ldif
+
+ENV INSTALLPROP opendj-install.properties
+ENV STARTSH startOpenDJ
+
+COPY $INSTALLPROP /opt/$INSTALLPROP
+COPY startOpenDJ /opt/startOpenDJ
+RUN chmod +x /opt/startOpenDJ
+
+WORKDIR /opt/opendj
+
+RUN ./setup --cli --propertiesFilePath /opt/$INSTALLPROP --acceptLicense --no-prompt
+
+RUN ./bin/status
+
+EXPOSE 1389
+
+ENTRYPOINT ["/opt/startOpenDJ"]

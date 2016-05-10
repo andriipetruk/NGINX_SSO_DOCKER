@@ -1,0 +1,29 @@
+FROM ubuntu:14.04
+
+MAINTAINER Andrii Petruk <andrey.petruk@gmail.com>
+
+
+RUN apt-get update && \
+        DEBIAN_FRONTEND=noninteractive apt-get install -y python-virtualenv python-dev build-essential supervisor && \
+        rm -rf /var/lib/apt/lists/* && \
+        sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervisord.conf
+
+RUN service supervisor stop
+RUN pip install virtualenv
+
+RUN mkdir -p /opt/pymicroservice/app/src && \
+    mkdir -p /opt/pymicroservice/conf/uwsgi && mkdir -p /opt/pymicroservice/conf/supervisord && \
+    mkdir /opt/pymicroservice/run && mkdir /opt/pymicroservice/logs
+
+COPY src /opt/pymicroservice/app/src
+RUN virtualenv /opt/pymicroservice/app && \
+    /opt/pymicroservice/app/bin/pip install -r  /opt/pymicroservice/app/src/requirements.txt
+
+COPY conf/uwsgi.ini  /opt/pymicroservice/conf/uwsgi/uwsgi.ini 
+COPY conf/supervisord_pymicroservice.conf /etc/supervisor/conf.d/pymicroservice.conf
+
+
+
+EXPOSE 8081
+CMD ["/usr/bin/supervisord"]
+
