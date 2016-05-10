@@ -120,7 +120,7 @@ For [boot2docker](https://docs.docker.com/installation/mac/) users, ldap://_boot
 #### Access 
 ```
 
-1. curl -H "Content-Type: application/json" -X POST -d '{"uid": "2", "name": "Jane Doe", "date": "2015-05-13T14:36:00.451765", "md5checksum": "0cf6399e2739304b73b41162735679fb"}' http://localhost:8080/api/
+1. curl -H "Content-Type: application/json" -X POST -d '{"uid": "2", "name": "Jane Doe", "date": "2015-05-13T14:36:00.451765", "md5checksum": "0cf6399e2739304b73b41162735679fb"}' http://_dockerip_:80/api/
 
 2. http://_dockerip_:80/api/2/2015-05-13/
 
