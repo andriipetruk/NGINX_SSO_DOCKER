@@ -24,6 +24,8 @@ Nginx with modAM    - Dockerfile.nginxmodam
 python microservice - Dockerfile.pymicroservice  
 ```
 
+######Operational Infrastructure
+![alt tag](https://github.com/andriipetruk/NGINX_SSO_DOCKER/blob/master/NGINX_SSO_DOCKER.png)
 
 ## Deploy Docker container with ForgeRock OpenDJ
 
